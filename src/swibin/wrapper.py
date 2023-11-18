@@ -7,5 +7,5 @@ def with_handler(func):
         try:
             return func(*args, **kwargs)
         except Exception as e:
-            print(describe_error(e))
+            describe_error(e, args, kwargs)
     return wrapper
