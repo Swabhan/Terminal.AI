@@ -1,0 +1,18 @@
+[build-system]
+requires = ['setuptools>=68.2.2', 'wheel']
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = "swibin"
+version = "1.0.4"
+authors = [
+  { name="Swibin Team", email="uzair.m6d@gmail.com" },
+]
+description = "Smart error insights."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
