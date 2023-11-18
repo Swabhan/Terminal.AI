@@ -1,4 +1,4 @@
 *.egg-info
 .vscode
 .venv
-__pycache__
+**/__pycache__/
