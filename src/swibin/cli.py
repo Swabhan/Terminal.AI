@@ -34,16 +34,34 @@ def explain_error_with_gpt(error_message):
             model="gpt-3.5-turbo-1106",
             messages=[
                 {"role": "system", "content": "You are a python expert that gives specific code suggestions."},
-                {"role": "user", "content": f"{error_message}\n\nUnderstand the following exception, along with all of the associated functions. Explain what might have caused it and suggest possible fixes. Mention line numbers and function names if applicable. Be concise. Answer in 200 words or less."}
+                {"role": "user", "content": f"{error_message}\n\nUnderstand the following exception, along with all of the associated functions. Explain what might have caused it and suggest possible fixes. Mention line numbers and include code blocks. When using line numbers, use the format \"/path/to/file:line\" "}
             ],
             stream=True
         )
         
         for chunk in response:
-            print(chunk.choices[0].delta.content, end="")
+            print(color_terminal_code_blocks( chunk.choices[0].delta.content), end="")
 
     except Exception as e:
         return f"Error in contacting OpenAI API: {str(e)}"
+
+is_code_block = False
+
+def color_terminal_code_blocks(text):
+    # replace all instances of ``` with a color
+
+    for char in text:
+        if char == '`':
+            global is_code_block
+            is_code_block = not is_code_block
+            if is_code_block:
+                text = text.replace('`', f'\033[{31}m`', 1)
+            else:
+                text = text.replace('`', '\033[0m`', 1)
+
+    return text
+
+
 
 def run_script(script_path, custom_prompt=""):
     try:

@@ -77,19 +77,6 @@ def proj(v,u):
     return pv
 
 
-def transpose(A):
-    '''Calculate the transpose of matrix A represented as list of lists'''
-    n = len(A)
-    m = len(A[0])
-    AT = list()
-    for j in range(0,m):    
-        temp = list()
-        for i in range(0,n):
-            temp.append(A[i][j])
-        AT.append(temp)
-    return AT
-
-
 def subtract(a, b):
     return [(a_ - b_) for (a_, b_) in list(zip(a, b))]
 
