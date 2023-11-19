@@ -3,6 +3,6 @@
 To test locally:
 
 ```bash
-pip install -e .
-python -m src/test/main.py
+pip -m install -e .
+python src/test/main.py
 ```
