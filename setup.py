@@ -8,9 +8,9 @@ with open("src/swibin/version.py", "r") as f:
 version = version["__version__"]
 
 setuptools.setup(
-    name="swibin",
+    name="debug-python",
     version=version,
-    author="Swibin Team",
+    author="Terminal AI",
     author_email="your.email@example.com",
     description="Smart error insights for Python",
     classifiers=[
@@ -21,11 +21,12 @@ setuptools.setup(
     python_requires='>=3.8',
     install_requires=[
         'openai==1.3.3',
-        'python-dotenv'
+        'python-dotenv',
+        'colorama'
     ],
     entry_points={
         'console_scripts': [
-            'swibin=swibin.cli:main',
+            'pydebug=debug-python.cli:main',
         ],
     },
 )
