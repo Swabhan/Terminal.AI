@@ -1,4 +1,4 @@
-from helpers import transpose, subtract, proj
+from helpers.vectormath import transpose, subtract, proj
 from swibin import with_handler
 
 def GramSchmidt(A):
