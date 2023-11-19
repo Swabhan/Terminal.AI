@@ -29,7 +29,7 @@ def color_terminal_code_blocks(text):
             global is_code_block
             is_code_block = not is_code_block
             if is_code_block:
-                text = text.replace('`', Fore.GREEN + '`', 1)
+                text = text.replace('`', Fore.CYAN + '`', 1)
             else:
                 text = text.replace('`', generation_color + '`', 1)
 
