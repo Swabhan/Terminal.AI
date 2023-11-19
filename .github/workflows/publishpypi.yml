@@ -2,12 +2,6 @@ name: Publish to PyPi
 
 on:
   workflow_dispatch:
-    inputs:
-      version:
-        description: 'Type of version update (major, minor, patch)'
-        required: true
-        default: 'patch'
-        type: string
 
 jobs:
   build:
@@ -23,11 +17,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install setuptools wheel twine build bump2version
-        
-      - name: Bump version
-        run: |
-          bump2version ${{ github.event.inputs.version }}
+          pip install setuptools wheel twine build
 
       - name: Build and publish
         env:

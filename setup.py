@@ -1,8 +1,9 @@
 import setuptools
+from swibin import __version__
 
 setuptools.setup(
     name="swibin",
-    version="1.0.6",
+    version=__version__,
     author="Swibin Team",
     author_email="your.email@example.com",
     description="Smart error insights for Python",
