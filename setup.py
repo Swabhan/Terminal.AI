@@ -8,7 +8,7 @@ with open("src/swibin/version.py", "r") as f:
 version = version["__version__"]
 
 setuptools.setup(
-    name="debug-python",
+    name="swibin",
     version=version,
     author="Terminal AI",
     author_email="your.email@example.com",
@@ -26,7 +26,7 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'pydebug=debug-python.cli:main',
+            'swibin=swibin.cli:main',
         ],
     },
 )

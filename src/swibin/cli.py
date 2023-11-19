@@ -30,8 +30,8 @@ def get_python_files_contents(script_path):
 
 def explain_error_with_gpt(error_message, script_path):
     script_dir = os.path.dirname(script_path)
-
-    client = OpenAI(api_key=get_key(script_dir))
+    api_key = get_key(script_dir)
+    client = OpenAI(api_key=api_key)
 
     try:
         response = client.chat.completions.create(
@@ -45,10 +45,10 @@ def explain_error_with_gpt(error_message, script_path):
 
         print(generation_color, end="")
         for chunk in response:
-            print(color_terminal_code_blocks( chunk.choices[0].delta.content), end="")
+            print(color_terminal_code_blocks(chunk.choices[0].delta.content), end="")
 
     except Exception as e:
-        return f"Error in contacting OpenAI API: {str(e)}"
+        print(f"Error in contacting OpenAI API: {str(e)}")
 
 
 
