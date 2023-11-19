@@ -1,7 +1,7 @@
 name: Publish to PyPi
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       version:
         description: 'Type of version update (major, minor, patch)'
