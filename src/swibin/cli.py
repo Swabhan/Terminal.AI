@@ -5,6 +5,8 @@ import glob
 import os
 import platform
 from .get_openai_key import get_key
+from .color import generation_color, color_terminal_code_blocks
+
 
 def get_and_format_environment_details():
     python_version = sys.version
@@ -26,12 +28,10 @@ def get_python_files_contents(script_path):
     return files_contents
 
 
-generation_color = "\033[97m"
+def explain_error_with_gpt(error_message, script_path):
+    script_dir = os.path.dirname(script_path)
 
-
-def explain_error_with_gpt(error_message):
-
-    client = OpenAI(api_key=get_key())
+    client = OpenAI(api_key=get_key(script_path))
 
     try:
         response = client.chat.completions.create(
@@ -50,22 +50,6 @@ def explain_error_with_gpt(error_message):
     except Exception as e:
         return f"Error in contacting OpenAI API: {str(e)}"
 
-is_code_block = False
-
-def color_terminal_code_blocks(text):
-    # replace all instances of ``` with green color
-
-    for char in text:
-        if char == '`':
-            global is_code_block
-            is_code_block = not is_code_block
-            if is_code_block:
-                text = text.replace('`', f'\033[92m`', 1)
-            else:
-                text = text.replace('`', generation_color + '`', 1)
-
-    return text
-
 
 
 def run_script(script_path, custom_prompt=""):
@@ -82,7 +66,7 @@ def run_script(script_path, custom_prompt=""):
         all_files_contents = get_python_files_contents(script_path)
         combined_input = f"Environment Details:\n{env_details}\n\nPython Files Contents:\n{all_files_contents}\n\nError Output:\n{error_output}\n\n{custom_prompt}"
 
-        explain_error_with_gpt(combined_input)
+        explain_error_with_gpt(combined_input, script_path)
         print("\033[0m")
 
 def main():
