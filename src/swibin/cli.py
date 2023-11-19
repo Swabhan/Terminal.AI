@@ -25,6 +25,10 @@ def get_python_files_contents(script_path):
             files_contents += f.read() + "\n"
     return files_contents
 
+
+generation_color = "\033[97m"
+
+
 def explain_error_with_gpt(error_message):
 
     client = OpenAI(api_key=get_key())
@@ -34,11 +38,12 @@ def explain_error_with_gpt(error_message):
             model="gpt-3.5-turbo-1106",
             messages=[
                 {"role": "system", "content": "You are a python expert that gives specific code suggestions."},
-                {"role": "user", "content": f"{error_message}\n\nUnderstand the following exception, along with all of the associated functions. Explain what might have caused it and suggest possible fixes. Mention line numbers and include code blocks. When using line numbers, use the format \"/path/to/file:line\" "}
+                {"role": "user", "content": f"{error_message}\n\nUnderstand the following exception, along with all of the associated functions. Explain what might have caused it and suggest possible fixes. Mention line numbers and include code blocks. When using line numbers. Be concise and specific."}
             ],
             stream=True
         )
-        
+
+        print(generation_color, end="")
         for chunk in response:
             print(color_terminal_code_blocks( chunk.choices[0].delta.content), end="")
 
@@ -48,16 +53,16 @@ def explain_error_with_gpt(error_message):
 is_code_block = False
 
 def color_terminal_code_blocks(text):
-    # replace all instances of ``` with a color
+    # replace all instances of ``` with green color
 
     for char in text:
         if char == '`':
             global is_code_block
             is_code_block = not is_code_block
             if is_code_block:
-                text = text.replace('`', f'\033[{31}m`', 1)
+                text = text.replace('`', f'\033[92m`', 1)
             else:
-                text = text.replace('`', '\033[0m`', 1)
+                text = text.replace('`', generation_color + '`', 1)
 
     return text
 
@@ -69,12 +74,16 @@ def run_script(script_path, custom_prompt=""):
         print(output.decode())
     except subprocess.CalledProcessError as e:
         error_output = e.output.decode()
+
+        # color red
+        print("\033[91m", end="")
         print(error_output)
         env_details = get_and_format_environment_details()
         all_files_contents = get_python_files_contents(script_path)
         combined_input = f"Environment Details:\n{env_details}\n\nPython Files Contents:\n{all_files_contents}\n\nError Output:\n{error_output}\n\n{custom_prompt}"
 
         explain_error_with_gpt(combined_input)
+        print("\033[0m")
 
 def main():
     if len(sys.argv) < 2:

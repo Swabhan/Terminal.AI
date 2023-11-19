@@ -58,8 +58,8 @@ def norm(u):
 
 def transpose(A):
     '''Calculate the transpose of matrix A represented as list of lists'''
-    n = len(A[0]) # number of columns
-    m = len(A) # number of rows
+    n = len(A)  # number of rows
+    m = len(A[0])  # number of columns
     AT = list()
     for j in range(0,m):    
         temp = list()
