@@ -31,7 +31,7 @@ def get_python_files_contents(script_path):
 def explain_error_with_gpt(error_message, script_path):
     script_dir = os.path.dirname(script_path)
 
-    client = OpenAI(api_key=get_key(script_path))
+    client = OpenAI(api_key=get_key(script_dir))
 
     try:
         response = client.chat.completions.create(
