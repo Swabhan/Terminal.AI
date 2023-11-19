@@ -10,9 +10,6 @@ def describe_error(e, args, kwargs):
 
 
 
-
-
-
 def get_project_files(e):
     
     # stack trace
