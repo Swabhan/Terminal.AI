@@ -4,6 +4,7 @@ from openai import OpenAI
 import glob
 import os
 import platform
+from .get_openai_key import get_key
 
 def get_and_format_environment_details():
     python_version = sys.version
@@ -25,17 +26,22 @@ def get_python_files_contents(script_path):
     return files_contents
 
 def explain_error_with_gpt(error_message):
-    client = OpenAI(api_key='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')
+
+    client = OpenAI(api_key=get_key())
 
     try:
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-3.5-turbo-1106",
             messages=[
                 {"role": "system", "content": "You are a python expert that gives specific code suggestions."},
-                {"role": "user", "content": f"Understand the following exception, along with all of the associated functions. Explain what might have caused it and suggest possible fixes. Mention line numbers and function names if applicable. Be concise:\n\n{error_message}"}
-            ]
+                {"role": "user", "content": f"{error_message}\n\nUnderstand the following exception, along with all of the associated functions. Explain what might have caused it and suggest possible fixes. Mention line numbers and function names if applicable. Be concise. Answer in 200 words or less."}
+            ],
+            stream=True
         )
-        return response.choices[0].message.content
+        
+        for chunk in response:
+            print(chunk.choices[0].delta.content, end="")
+
     except Exception as e:
         return f"Error in contacting OpenAI API: {str(e)}"
 
@@ -48,10 +54,9 @@ def run_script(script_path, custom_prompt=""):
         print(error_output)
         env_details = get_and_format_environment_details()
         all_files_contents = get_python_files_contents(script_path)
-        print(all_files_contents)
-        combined_input = f"{custom_prompt}\n\nError Output:\n{error_output}\n\nEnvironment Details:\n{env_details}\n\nPython Files Contents:\n{all_files_contents}"
-        explanation = explain_error_with_gpt(combined_input)
-        print(explanation)
+        combined_input = f"Environment Details:\n{env_details}\n\nPython Files Contents:\n{all_files_contents}\n\nError Output:\n{error_output}\n\n{custom_prompt}"
+
+        explain_error_with_gpt(combined_input)
 
 def main():
     if len(sys.argv) < 2:

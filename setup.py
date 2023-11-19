@@ -13,7 +13,8 @@ setuptools.setup(
     ],
     python_requires='>=3.8',
     install_requires=[
-        'openai==1.3.3'
+        'openai==1.3.3',
+        'python-dotenv'
     ],
     entry_points={
         'console_scripts': [
