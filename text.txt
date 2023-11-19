@@ -24,7 +24,11 @@ def main():
         [3,8,6]]
   G4 = GramSchmidt(A4)
 
-  assert G4 == [[1.0, 4.0, 8.0]]
+  assert G4 == [[1.0, 4.0, 8.0],
+                [-1.0, -2.0, -7.0],
+                [0.0, 0.0, -3.0],
+                [0.0, 0.0, 0.0]]
+
 
 
 if __name__ == "__main__":
@@ -99,8 +103,8 @@ def norm(u):
 
 def transpose(A):
     '''Calculate the transpose of matrix A represented as list of lists'''
-    n = len(A)
-    m = len(A[0])
+    n = len(A[0]) # number of columns
+    m = len(A) # number of rows
     AT = list()
     for j in range(0,m):    
         temp = list()

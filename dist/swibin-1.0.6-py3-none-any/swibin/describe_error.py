@@ -3,13 +3,8 @@ import ast
 import os
 
 def describe_error(e, args, kwargs):
-    print("An error occurred: " + str(e) + "\n" + "\n")
+
     get_project_files(e)
-
-
-
-
-
 
 
 

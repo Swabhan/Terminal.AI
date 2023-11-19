@@ -1,4 +1,5 @@
 from helpers.vectormath import transpose, subtract, proj
+from swibin import with_handler
 
 def GramSchmidt(A):
     AT = transpose(A)
@@ -11,6 +12,7 @@ def GramSchmidt(A):
     return G
 
 
+@with_handler
 def main():
   A4 = [[1,4,8],
         [2,0,1],
@@ -18,11 +20,7 @@ def main():
         [3,8,6]]
   G4 = GramSchmidt(A4)
 
-  assert G4 == [[1.0, 4.0, 8.0],
-                [-1.0, -2.0, -7.0],
-                [0.0, 0.0, -3.0],
-                [0.0, 0.0, 0.0]]
-
+  assert G4 == [[1.0, 4.0, 8.0]]
 
 
 if __name__ == "__main__":

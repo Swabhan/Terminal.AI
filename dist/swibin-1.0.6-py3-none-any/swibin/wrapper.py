@@ -1,5 +1,5 @@
 import functools
-from .describe_error import describe_error
+from .insights import describe_error
 
 def with_handler(func):
     @functools.wraps(func)
